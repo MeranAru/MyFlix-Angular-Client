@@ -169,6 +169,14 @@ export class FetchApiDataService {
       catchError(this.handleError)
     );
   }
+  isFavoriteMovie(movieId: string): boolean {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user) {
+      return user.FavoriteMovies.includes(movieId);
+    }
+
+    return false;
+  }
 
   // Non-typed response extraction
   private extractResponseData(res: any): any {
