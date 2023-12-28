@@ -7,13 +7,13 @@ type User = { _id?: string, Username?: string, Password?: string, Email?: string
 
 @Component({
     selector: 'app-profile-page',
-    templateUrl: 'profile-page.component.html',
+    templateUrl: './profile-page.component.html',
     styleUrls: ['./profile-page.component.scss']
 })
 export class ProfilePageComponent implements OnInit {
     user: User = {};
 
-    @Input() loginData = { Username: '', Password: '', Email: '' };
+    @Input() userData = { Username: '', Password: '', Email: '' };
     
     constructor(
         public fetchApiData: FetchApiDataService,
@@ -30,7 +30,7 @@ export class ProfilePageComponent implements OnInit {
         }
 
         this.user = user;
-        this.loginData = {
+        this.userData = {
         Username: user.Username || "",
         Email: user.Email || "",
         Password: ""
@@ -42,7 +42,7 @@ export class ProfilePageComponent implements OnInit {
     }
 
     updateUser(): void {
-        this.fetchApiData.editUser(this.loginData).subscribe((result) => {
+        this.fetchApiData.editUser(this.userData).subscribe((result) => {
         localStorage.setItem('user', JSON.stringify(result))
         this.user = result;
         this.snackBar.open('user updated!', 'OK', {
