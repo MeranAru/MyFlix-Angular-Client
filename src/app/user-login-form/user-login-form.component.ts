@@ -1,14 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
-
-// You'll use this import to close the dialog on success
 import { MatDialogRef } from '@angular/material/dialog';
-
-// This import brings in the API calls we created in 6.2
-import { FetchApiDataService } from '../fetch-api-data.service';
-
-// This import is used to display notifications back to the user
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FetchApiDataService } from '../fetch-api-data.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,13 +12,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UserLoginFormComponent implements OnInit {
 
-  @Input() loginData = { Username: '', Password: '' };
+  @Input() userData = { Username: '', Password: '' };
 
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<UserLoginFormComponent>,
     public snackBar: MatSnackBar,
-    private router: Router,
+    public router: Router
   ) { }
 
   ngOnInit(): void {
@@ -32,18 +26,18 @@ export class UserLoginFormComponent implements OnInit {
 
   // This is the function responsible for sending the form inputs to the backend
   loginUser(): void {
-    this.fetchApiData.userLogin(this.loginData).subscribe((result) => {
-      // Logic for a successful user login goes here! (To be implemented)
-      localStorage.setItem('user', JSON.stringify(result.user));//result.user.Username   --instead JSON.stringify?
-      localStorage.setItem('token', result.token);
-      
-      this.dialogRef.close(); // This will close the modal on success!
-      this.router.navigate(['movies']);
-      this.snackBar.open('Logged in', 'OK', {
+    this.fetchApiData.userLogin(this.userData).subscribe((result) => {
+      // Logic for a successful user registration goes here! (To be implemented)
+      this.dialogRef.close();
+      this.snackBar.open('user logged in successfully!', 'OK', {
         duration: 2000
       });
-    }, (result) => {
-      this.snackBar.open(result, 'OK', {
+
+      localStorage.setItem('user', JSON.stringify(result.user));
+      localStorage.setItem('token', result.token);
+      this.router.navigate(['movies']);
+    }, (response) => {
+      this.snackBar.open(response, 'OK', {
         duration: 2000
       });
     });
