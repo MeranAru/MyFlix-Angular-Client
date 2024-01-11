@@ -90,7 +90,7 @@ export class FetchApiDataService {
   }
 
   /* Making the api call for the get favourite movies for a user endpoint*/
-  getFavoriteMovies(username: string): Observable<any> {
+  getFavouriteMovies(username: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'users/' + username, {
       headers: new HttpHeaders({
